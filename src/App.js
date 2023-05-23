@@ -7,10 +7,9 @@ const options = {
   maximumAge: 0,
 };
 
-
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
   const distance = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1)) * 6371000
-  return distance.toString()
+  return distance
 }
 
 export default function SimpleMap() {
@@ -58,23 +57,15 @@ export default function SimpleMap() {
 
   return (
     <div>
-      <div style={{
-        width: '80px',
-        height: '30px',
-        padding: '10px',
-        marginBottom: '15px',
-        color: 'white',
-        backgroundColor: 'blue',
-        cursor: 'pointer'
-      }}
+      <div class="button-3" 
         onClick={handleChangeRandomPos}
       >
         Change location
       </div>
       <GoogleMap
         center={currentPos}
-        zoom={12}
-        mapContainerStyle={{ height: "100vh", width: "100vw" }}
+        zoom={20}
+        mapContainerStyle={{ height: "90vh", width: "100vw" }}
       >
         <Marker
           position={currentPos}
