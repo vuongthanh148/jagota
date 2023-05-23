@@ -6,12 +6,17 @@ You can test the app at this link: https://jagota.vercel.app/
 
 ## Available Scripts
 
+Add Google map api key to .env file to make the map works in local.
+Example: REACT_APP_MAP_KEY=
+
 In the project directory, you can run:
 
+### `npm i`
 ### `npm start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-Add Google map api key to .env file to make the map works in local.
-Example: REACT_APP_MAP_KEY=
+## Library used
+
+react-google-maps
