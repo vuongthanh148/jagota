@@ -18,6 +18,8 @@ export default function SimpleMap() {
     lng: 105.788697
   })
 
+  const [isAllowed, setIsAllowed] = useState(false)
+
   const handleChangePosition = (lat, lng) => {
     localStorage.setItem("lat", lat);
     localStorage.setItem("lng", lng);
@@ -27,9 +29,8 @@ export default function SimpleMap() {
     })
   }
 
-  function success(pos) {
+  const success = (pos) => {
     const crd = pos.coords;
-
     console.log("Your current position is:");
     console.log(`Latitude : ${crd.latitude}`);
     console.log(`Longitude: ${crd.longitude}`);
@@ -43,8 +44,24 @@ export default function SimpleMap() {
   }
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(success, error, options);
-    navigator.geolocation.watchPosition(success, error, options)
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(success, error, options);
+      navigator.geolocation.watchPosition(success, error, options)
+
+      navigator.permissions
+        .query({ name: "geolocation" })
+        .then(function (result) {
+          if (result.state === 'granted') {
+            setIsAllowed(true)
+          }
+          result.onchange = function () {
+            setIsAllowed(result.state === 'granted')
+          };
+        });
+    }
+    else {
+      console.log("Geolocation not supported")
+    }
   }, [])
 
   const handleChangeRandomPos = () => {
@@ -57,20 +74,25 @@ export default function SimpleMap() {
 
   return (
     <div>
-      <div class="button-3" 
-        onClick={handleChangeRandomPos}
+      <div class="button-3"
+        onClick={() => isAllowed && handleChangeRandomPos()}
       >
         Change location
       </div>
-      <GoogleMap
-        center={currentPos}
-        zoom={20}
-        mapContainerStyle={{ height: "90vh", width: "100vw" }}
-      >
-        <Marker
-          position={currentPos}
-        />
-      </GoogleMap>
+      {isAllowed ?
+        <GoogleMap
+          center={currentPos}
+          zoom={20}
+          mapContainerStyle={{ height: "90vh", width: "100vw" }}
+        >
+          <Marker
+            position={currentPos}
+          />
+        </GoogleMap> :
+        <div>
+          Location is not allowed
+        </div>
+      }
     </div>
   );
 }
