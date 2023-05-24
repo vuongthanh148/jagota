@@ -12,7 +12,9 @@ Example: REACT_APP_MAP_KEY=
 In the project directory, you can run:
 
 ### `npm i`
-### `npm start`
+
+We need to enable https for location service to be run in local
+### `HTTPS=true npm start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
